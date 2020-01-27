@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Depth of Field Calculator</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_add_lens">Add Lens</string>
+    <string name="title_activity_calc_lens">Calculate DoF</string>
+    <string name="txt_hfd">Hyperfocal Distance:</string>
+    <string name="txt_dof">Depth of Field:</string>
+    <string name="txt_ffd">Far Focal Distance:</string>
+    <string name="txt_nfd">Near Focal Distance:</string>
+    <string name="txt_enterallvalues">Enter all values</string>
+    <string name="txt_photodetails">Photo details with:</string>
+    <string name="txt_COF">Circle of Confusion [m]</string>
+    <string name="txt_DOS">Distance to subject [m]</string>
+    <string name="txt_SA">Selected Aperture</string>
+    <string name="txt_COCsample">ex: 0.029</string>
+    <string name="txt_DOSsample">ex: 1.5 for 1.5m</string>
+    <string name="txt_SAsample">ex: 2.8 for F2.8</string>
+    <string name="txt_calculate">Calculate</string>
+    <string name="txt_Cancel">Cancel</string>
+</resources>
