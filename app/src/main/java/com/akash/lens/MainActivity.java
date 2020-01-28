@@ -4,33 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.view.View;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.akash.lens.model.DOFCalculator;
-import com.akash.lens.model.Lens;
 import com.akash.lens.model.LensManager;
-
-import com.akash.lens.ui.CameraTextUI;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final double COC = 0.029;
     private LensManager manager;
 
 
@@ -68,35 +56,32 @@ public class MainActivity extends AppCompatActivity {
 
     private void populateListView() {
         //Creation of the list of items required for the Lense List
-        ArrayList<String> lensString = new ArrayList<String>();
+        ArrayList<String> lensString = new ArrayList<>();
         for (Object l : manager) {
             lensString.add(l.toString());
         }
 
         //Build Adapter - linking the list generated above to the textView
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
                 R.layout.da_lens,
                 lensString);
 
         //ListView Configure
 
-        ListView list = (ListView) findViewById(R.id.listViewMain);
-        TextView emptyText = (TextView) findViewById(R.id.textView_EmptyList);
+        ListView list = findViewById(R.id.listViewMain);
+        TextView emptyText = findViewById(R.id.textView_EmptyList);
         list.setEmptyView(emptyText);
         list.setAdapter(adapter);
 
     }
 
     private void registerClickCallback() {
-        ListView list = (ListView) findViewById(R.id.listViewMain);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = calcLens.makeLaunchIntent(MainActivity.this, position);
-                MainActivity.this.startActivity(i);
+        ListView list = findViewById(R.id.listViewMain);
+        list.setOnItemClickListener((parent, view, position, id) -> {
+            Intent i = calcLens.makeLaunchIntent(MainActivity.this, position);
+            MainActivity.this.startActivity(i);
 
-            }
         });
 
     }

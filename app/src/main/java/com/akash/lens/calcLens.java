@@ -1,5 +1,6 @@
 package com.akash.lens;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -88,6 +89,7 @@ public class calcLens extends AppCompatActivity {
         cancel.setOnClickListener(v -> finish());
     }
 
+    @SuppressLint("SetTextI18n")
     private void setCalculateButton(LensManager manager) {
         Button calculate = findViewById(R.id.button_Calculate);
         calculate.setOnClickListener(v -> {
@@ -116,12 +118,18 @@ public class calcLens extends AppCompatActivity {
                 txtViewFFD.setText("NaN");
                 txtViewDOF.setText("NaN");
                 txtViewHFD.setText("NaN");
+                Toast.makeText(getApplicationContext(), R.string.txt_ErrorCOC, Toast.LENGTH_LONG).show();
+
             }
-            else if(maxAperture > inSA) {
+            else if (inDistance == 0) {
+                Toast.makeText(getApplicationContext(), R.string.txt_ErrorDistance, Toast.LENGTH_LONG).show();
+            }
+            else if(maxAperture > inSA || inSA < 1.4) {
                 txtViewNFD.setText("Invalid Aperture");
                 txtViewFFD.setText("Invalid Aperture");
                 txtViewDOF.setText("Invalid Aperture");
                 txtViewHFD.setText("Invalid Aperture");
+                Toast.makeText(getApplicationContext(), R.string.txt_ErrorSA, Toast.LENGTH_LONG).show();
             }
             else{
                 double outputVals[] = DOFCalculator.calcDOF(focal,inSA,inDistance,inCOC);

@@ -6,15 +6,13 @@ import android.os.Bundle;
 
 import com.akash.lens.model.Lens;
 import com.akash.lens.model.LensManager;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class addLens extends AppCompatActivity {
 
@@ -25,8 +23,7 @@ public class addLens extends AppCompatActivity {
     private boolean editMode;
 
     public static Intent makeLaunchIntent(Context c) {
-        Intent intent = new Intent(c, addLens.class);
-        return intent;
+        return new Intent(c, addLens.class);
     }
 
     public static Intent makeLaunchIntent(Context c, int position) {
@@ -61,7 +58,7 @@ public class addLens extends AppCompatActivity {
             EditText inFocalValue = findViewById(R.id.editText_FocalLength);
             EditText inApertureValue = findViewById(R.id.editText_Aperture);
 
-            String make = manager.get(lensNum).getMake().toString();
+            String make = manager.get(lensNum).getMake();
             int focal = manager.get(lensNum).getFocalLength();
             double aperture = manager.get(lensNum).getMaxAperture();
 
@@ -91,7 +88,17 @@ public class addLens extends AppCompatActivity {
                 double aperture = Double.parseDouble(inApertureValue.getText().toString());
                 int focal = Integer.parseInt(inFocalValue.getText().toString());
 
-                if(!editMode)
+                if(make.isEmpty())
+                {
+                    Toast.makeText(getApplicationContext(), R.string.txt_EmptyMake, Toast.LENGTH_LONG).show();
+                }
+                else if (inFocalValue.getText().toString().isEmpty() || focal == 0) {
+                    Toast.makeText(getApplicationContext(), R.string.txt_FocalError, Toast.LENGTH_LONG).show();
+                }
+                else if (inApertureValue.getText().toString().isEmpty() || aperture < 1.4) {
+                    Toast.makeText(getApplicationContext(), R.string.txt_ApertureError, Toast.LENGTH_LONG).show();
+                }
+                else if(!editMode)
                 {
                     manager.add(new Lens(make,aperture,focal));
                 }
