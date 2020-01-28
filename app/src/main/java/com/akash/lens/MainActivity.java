@@ -61,14 +61,19 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    protected void onResume(){          //ensures that the lens populated list is refreshed whenever returning to the Main Application
+        super.onResume();
+        populateListView();
+    }
+
     private void populateListView() {
-        //Create a list of items
+        //Creation of the list of items required for the Lense List
         ArrayList<String> lensString = new ArrayList<String>();
         for (Object l : manager) {
             lensString.add(l.toString());
         }
 
-        //Build Adapter
+        //Build Adapter - linking the list generated above to the textView
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this,
                 R.layout.da_lens,
@@ -86,19 +91,12 @@ public class MainActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = calcLens.makeLaunchIntent(MainActivity.this);
+                Intent i = calcLens.makeLaunchIntent(MainActivity.this, position);
                 MainActivity.this.startActivity(i);
 
             }
         });
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
     }
 
     @Override
