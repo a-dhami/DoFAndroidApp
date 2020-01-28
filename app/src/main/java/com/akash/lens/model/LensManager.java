@@ -25,9 +25,18 @@ public class LensManager<Lenses> implements Iterable<Lens> {
         lenses.add(lens);
     }
 
-    public Lens get(int l)
-    {
+    public void remove(int i){
+        lenses.remove(i);
+    }
+
+    public void set(int i, String m, double a, int f){
+        Lens l = new Lens(m,a,f);
+        lenses.set(i,l);
+    }
+
+    public Lens get(int l) {
         return lenses.get(l);
+
     }
 
     @Override

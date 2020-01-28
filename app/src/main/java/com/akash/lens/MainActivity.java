@@ -82,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
         //ListView Configure
 
         ListView list = (ListView) findViewById(R.id.listViewMain);
+        TextView emptyText = (TextView) findViewById(R.id.textView_EmptyList);
+        list.setEmptyView(emptyText);
         list.setAdapter(adapter);
 
     }

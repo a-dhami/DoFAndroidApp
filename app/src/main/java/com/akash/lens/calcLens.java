@@ -53,6 +53,29 @@ public class calcLens extends AppCompatActivity {
 
         setCancelButton();
 
+        setDeleteButton(manager);
+
+        setEditButton();
+
+    }
+
+    private void setDeleteButton(LensManager manager) {
+        Button delete = findViewById(R.id.button_Delete);
+        delete.setOnClickListener(v -> {
+            manager.remove(lensNum);
+            finish();
+        });
+    }
+
+
+    private void setEditButton() {
+        Button edit = findViewById(R.id.button_Edit);
+        edit.setOnClickListener(v -> {
+            Intent i = addLens.makeLaunchIntent(calcLens.this, lensNum);
+            startActivity(i);
+            finish();
+        });
+
     }
 
     private void setLensInfo(LensManager manager) {
@@ -112,7 +135,7 @@ public class calcLens extends AppCompatActivity {
 
     private void extractDataFromIntent() {
         Intent intent = getIntent();
-        lensNum = intent.getIntExtra(EXTRA_LENSPOSITION,-1);
+        lensNum = intent.getIntExtra(EXTRA_LENSPOSITION,-2);
     }
 
     private String formatM(double distanceInM) {
