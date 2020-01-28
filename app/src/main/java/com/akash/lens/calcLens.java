@@ -12,13 +12,17 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
+import android.view.ViewDebug;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.w3c.dom.Text;
+
+import java.text.DecimalFormat;
 
 public class calcLens extends AppCompatActivity {
 
@@ -41,13 +45,19 @@ public class calcLens extends AppCompatActivity {
 
         LensManager manager = LensManager.getInstance();
 
-
         extractDataFromIntent();
+
+        setLensInfo(manager);
 
         setCalculateButton(manager);
 
         setCancelButton();
 
+    }
+
+    private void setLensInfo(LensManager manager) {
+        TextView lensView = findViewById(R.id.textView_lensinfo);
+        lensView.setText(manager.get(lensNum).toString());
     }
 
     private void setCancelButton() {
@@ -77,24 +87,37 @@ public class calcLens extends AppCompatActivity {
             double maxAperture = manager.get(lensNum).getMaxAperture();
 
 
-            if(maxAperture > inSA) {
+            if(inCOC == 0)
+            {
                 txtViewNFD.setText("NaN");
-                txtViewFFD.setText("Nan");
+                txtViewFFD.setText("NaN");
                 txtViewDOF.setText("NaN");
                 txtViewHFD.setText("NaN");
             }
+            else if(maxAperture > inSA) {
+                txtViewNFD.setText("Invalid Aperture");
+                txtViewFFD.setText("Invalid Aperture");
+                txtViewDOF.setText("Invalid Aperture");
+                txtViewHFD.setText("Invalid Aperture");
+            }
             else{
                 double outputVals[] = DOFCalculator.calcDOF(focal,inSA,inDistance,inCOC);
-                txtViewNFD.setText(Double.toString(outputVals[0]));
-                txtViewFFD.setText(Double.toString(outputVals[1]));
-                txtViewDOF.setText(Double.toString(outputVals[2]));
-                txtViewHFD.setText(Double.toString(outputVals[3]));
+                txtViewNFD.setText(formatM(outputVals[0]) + "m");
+                txtViewFFD.setText(formatM(outputVals[1]) + "m");
+                txtViewDOF.setText(formatM(outputVals[2]) + "m");
+                txtViewHFD.setText(formatM(outputVals[3]) + "m");
             }
         });
     }
 
     private void extractDataFromIntent() {
         Intent intent = getIntent();
-        int lensNum = intent.getIntExtra(EXTRA_LENSPOSITION,-1);
+        lensNum = intent.getIntExtra(EXTRA_LENSPOSITION,-1);
+    }
+
+    private String formatM(double distanceInM) {
+        DecimalFormat df = new DecimalFormat("0.00");
+        distanceInM = distanceInM / 1000;
+        return df.format(distanceInM);
     }
 }
