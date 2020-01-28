@@ -40,19 +40,13 @@ public class calcLens extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         LensManager manager = LensManager.getInstance();
-        
+
 
         extractDataFromIntent();
 
         setCalculateButton(manager);
 
         setCancelButton();
-
-
-
-
-
-
 
     }
 
@@ -103,5 +97,4 @@ public class calcLens extends AppCompatActivity {
         Intent intent = getIntent();
         int lensNum = intent.getIntExtra(EXTRA_LENSPOSITION,-1);
     }
-
 }
